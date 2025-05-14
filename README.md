@@ -27,18 +27,21 @@
 # Project Description:
 
 ## backend/:
-Contains an Express server with Socket.IO for real-time peer evaluation data. It stores evaluations in memory and exposes them via WebSocket and a REST endpoint. The backend is containerized with its own Dockerfile.
+- Contains an Express server with Socket.IO for real-time peer evaluation data. 
+- It stores evaluations in memory and exposes them via WebSocket and a REST endpoint. 
+- The backend is containerized with its own Dockerfile.
 
 ## frontend/:
 A Next.js app with two main pages:
 
-/ (Host Dashboard): Displays all peer evaluations in real time.
-/client (Client Page): Allows users to submit peer evaluations. Uses Tailwind CSS for styling and connects to the backend via Socket.IO. Also containerized with its own Dockerfile.
+- / (Host Dashboard): Displays all peer evaluations in real time.
+- /client (Client Page): Allows users to submit peer evaluations. Uses Tailwind CSS for styling and connects to the backend via Socket.IO. 
+- Also containerized with its own Dockerfile.
 docker-compose.yml:
-Defines and runs both frontend and backend containers together, exposing ports 3000 (frontend) and 4000 (backend).
+- Defines and runs both frontend and backend containers together, exposing ports 3000 (frontend) and 4000 (backend).
 
 ### Other files:
 
-.gitignore files to exclude dependencies and sensitive files.
-commands.txt with common Docker commands.
-LICENSE (CC0) and README.md for project info.
+- .gitignore files to exclude dependencies and sensitive files.
+- commands.txt with common Docker commands.
+- LICENSE (CC0) and README.md for project info.
