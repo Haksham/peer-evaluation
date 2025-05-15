@@ -11,7 +11,7 @@ services:
 
   frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: frontend/Dockerfile
     container_name: peer-frontend
     ports:
