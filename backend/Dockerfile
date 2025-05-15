@@ -2,7 +2,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install dependencies
-COPY backend/package.json backend/package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci
 
 # Copy source
