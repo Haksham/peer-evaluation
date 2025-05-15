@@ -1,0 +1,13 @@
+cors
+dotenv
+express
+mongodb
+socket.io
+npm init
+type->module
+main->server.js
+"scripts": {
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js"
+  }
+npm install --save-dev jest supertest
