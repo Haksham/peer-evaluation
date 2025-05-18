@@ -1,2 +1,4 @@
 socket.io-client
-npm install --save-dev jest @testing-library/react @testing-library/jest-dom      -- not required
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom babel-jest
+npm install --save-dev jest-environment-jsdom
+npm install --save-dev @testing-library/jest-dom
