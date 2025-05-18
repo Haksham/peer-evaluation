@@ -3,3 +3,5 @@ docker-compose down --rmi all --volumes --remove-orphans
 docker-compose build --no-cache
 docker-compose up
 docker-compose down
+
+coverage: https://app.codecov.io/gh/Haksham/peer-evaluation/config
