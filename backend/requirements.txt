@@ -3,6 +3,7 @@ dotenv
 express
 mongodb
 socket.io
+
 npm init
 type->module
 main->server.js
@@ -10,4 +11,4 @@ main->server.js
     "dev": "node server.js",
     "start": "NODE_ENV=production node server.js"
   }
-npm install --save-dev jest supertest
+npm install --save-dev jest supertest     --not required
