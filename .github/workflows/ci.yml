@@ -36,3 +36,30 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/peer-eval-frontend:latest
+    
+    # Add after build steps
+      # - name: Install dependencies (frontend)
+      #   run: |
+      #     cd frontend
+      #     npm ci
+
+      # - name: Run tests (frontend)
+      #   run: |
+      #     cd frontend
+      #     npm run test:coverage
+
+      - name: Install dependencies (backend)
+        run: |
+          cd backend
+          npm ci
+
+      - name: Run tests (backend)
+        run: |
+          cd backend
+          npm run test:coverage
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
