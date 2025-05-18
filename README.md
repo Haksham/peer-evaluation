@@ -45,3 +45,5 @@ docker-compose.yml:
 - .gitignore files to exclude dependencies and sensitive files.
 - commands.txt with common Docker commands.
 - LICENSE (CC0) and README.md for project info.
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=alert_status&token=fd02ce399d012647ba5c5775aa750e33fb2973ed)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
