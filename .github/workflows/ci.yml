@@ -59,7 +59,7 @@ jobs:
           npm run test:coverage
 
       - name: SonarCloud Scan
-        uses: sonarqube-scan-action/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
