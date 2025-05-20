@@ -1,0 +1,10 @@
+kubectl apply -f .    // inside k8s folder (and yaml files must not be empty)
+kubectl version --client    // to check if kubectl is installed
+
+kubectl cluster-info  // to check cluster info
+minikube start        // is error comes then start this.
+
+kubectl config get-contexts  // cluster info
+kubectl config view         // k8s config files
+
+kubectl config use-context <context-name>  // to switch to different cluster
