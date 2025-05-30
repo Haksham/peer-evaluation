@@ -58,13 +58,21 @@ jobs:
           cd backend
           npm run test:coverage
 
+  sonarcloud:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
   notify:
-    needs: build-and-push
+    needs: [build-and-push, sonarcloud]
     runs-on: ubuntu-latest
     if: success()
     steps:
@@ -73,4 +81,4 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: 'C08VCBL65S4'  # Replace with your channel ID
-          SLACK_MESSAGE: 'Build and tests passed successfully! 🎉'
+          SLACK_MESSAGE: 'Build, tests, and SonarCloud scan passed successfully! 🎉'
