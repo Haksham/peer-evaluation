@@ -8,3 +8,4 @@ babel.config.js
 peer-eval_aws_code.pem
 sonar-project.properties
 not-required
+terraform

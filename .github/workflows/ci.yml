@@ -72,6 +72,5 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-        with:
-          slack-channel: 'C08VCBL65S4'  # Replace with your channel ID
-          slack-text: 'Build and tests passed successfully! 🎉'
+          SLACK_CHANNEL: 'C08VCBL65S4'  # Replace with your channel ID
+          SLACK_MESSAGE: 'Build and tests passed successfully! 🎉'
