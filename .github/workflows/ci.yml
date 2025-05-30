@@ -64,7 +64,7 @@ jobs:
           args: >
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
   notify:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
     if: success()
     steps:
