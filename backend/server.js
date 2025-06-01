@@ -1,45 +1,189 @@
-// backend/server.js
-import express from 'express';
-import { createServer } from 'http';
-import { Server as SocketServer } from 'socket.io';
-import cors from 'cors';
-
+const express = require('express');
+const http = require('http');
+const cors = require('cors');
 const app = express();
-const httpServer = createServer(app);
-const io = new SocketServer(httpServer, {
-  cors: { origin: '*' }
+const {Server} = require('socket.io');
+const port = 4000;
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
 });
 
 app.use(cors());
+app.use(express.json());
 
-// In-memory store for evaluations
-const evaluations = [];
+const rooms = {}; // { roomId: { host: socket.id, clients: [] } }
+const pendingRoomDeletion = {}; // { roomId: timeoutId }
+let sessionTimers = {}; // { roomId: { timer: Timeout, index: number } }
 
-// When a client connects:
 io.on('connection', (socket) => {
-  console.log(`Client connected: ${socket.id}`);
+  socket.on('createRoom', ({ roomId, hostName }) => {
+    if (!rooms[roomId]) {
+      rooms[roomId] = { host: socket.id, clients: [] };
+      socket.join(roomId);
+      socket.emit('roomCreated', { roomId });
+      console.log(`Room created: ${roomId} by ${hostName}`);
+    }
+  });
 
-  // Send all past evaluations
-  socket.emit('all-evals', evaluations);
+  socket.on('joinRoom', ({ roomId, name, usn, role }) => {
+    // If host rejoins, cancel pending deletion
+    if (pendingRoomDeletion[roomId] && role === "host") {
+      clearTimeout(pendingRoomDeletion[roomId]);
+      delete pendingRoomDeletion[roomId];
+    }
 
-  // Handle new evaluation submission
-  socket.on('submit-eval', (data) => {
-    evaluations.push(data);
-    // Broadcast new evaluation to all (including host)
-    io.emit('new-eval', data);
+    if (!rooms[roomId]) {
+      if (role === "host") {
+        // Host creates the room if it doesn't exist
+        rooms[roomId] = { host: socket.id, clients: [{ id: socket.id, name, usn, role }] };
+        socket.join(roomId);
+        io.to(roomId).emit('users', rooms[roomId].clients);
+      } else {
+        socket.emit('roomNotFound');
+      }
+    } else {
+      // If host rejoins, update host socket id
+      if (role === "host") {
+        rooms[roomId].host = socket.id;
+        // Optionally update host info in clients array
+        const hostIndex = rooms[roomId].clients.findIndex(u => u.role === "host");
+        if (hostIndex !== -1) {
+          rooms[roomId].clients[hostIndex] = { id: socket.id, name, usn, role };
+        } else {
+          rooms[roomId].clients.push({ id: socket.id, name, usn, role });
+        }
+      } else {
+        // Prevent duplicate clients
+        if (!rooms[roomId].clients.some(u => u.id === socket.id)) {
+          rooms[roomId].clients.push({ id: socket.id, name, usn, role });
+        }
+      }
+      socket.join(roomId);
+      io.to(roomId).emit('users', rooms[roomId].clients);
+    }
+
+    // After joining, send current session state if session is running
+    if (sessionTimers[roomId]) {
+      const clients = rooms[roomId].clients.filter(u => u.role === "client");
+      const index = sessionTimers[roomId].index;
+      const currentClient = clients[index];
+      // Calculate time left for current client
+      let timeLeft = 0;
+      if (sessionTimers[roomId].timerStart && sessionTimers[roomId].clientDuration) {
+        const elapsed = Math.floor((Date.now() - sessionTimers[roomId].timerStart) / 1000);
+        timeLeft = Math.max(sessionTimers[roomId].clientDuration - elapsed, 0);
+      }
+      socket.emit('sessionState', {
+        sessionStarted: true,
+        currentClient,
+        timeLeft
+      });
+    }
+  });
+
+  socket.on('startSession', ({ roomId }) => {
+    if (!rooms[roomId]) return;
+    const clients = rooms[roomId].clients.filter(u => u.role === "client");
+    if (clients.length === 0) return;
+
+    let index = 0;
+    io.to(roomId).emit('sessionStarted');
+    // Show the first client
+    io.to(roomId).emit('showClient', clients[index]);
+    sessionTimers[roomId] = {
+      index,
+      timer: setInterval(() => {
+        index++;
+        if (index < clients.length) {
+          io.to(roomId).emit('showClient', clients[index]);
+          sessionTimers[roomId].index = index;
+        } else {
+          clearInterval(sessionTimers[roomId].timer);
+          delete sessionTimers[roomId];
+          io.to(roomId).emit('sessionStopped');
+        }
+      }, 10000) // 10 seconds per client
+    };
+  });
+
+  socket.on('stopSession', ({ roomId }) => {
+    if (sessionTimers[roomId]) {
+      clearInterval(sessionTimers[roomId].timer);
+      delete sessionTimers[roomId];
+    }
+    io.to(roomId).emit('sessionStopped');
+  });
+
+  socket.on('pauseSession', ({ roomId }) => {
+    if (sessionTimers[roomId]) {
+      clearInterval(sessionTimers[roomId].timer);
+      sessionTimers[roomId].paused = true;
+      io.to(roomId).emit('sessionPaused');
+    }
+  });
+
+  socket.on('resumeSession', ({ roomId }) => {
+    if (sessionTimers[roomId] && sessionTimers[roomId].paused) {
+      sessionTimers[roomId].paused = false;
+      let index = sessionTimers[roomId].index;
+      const clients = rooms[roomId].clients.filter(u => u.role === "client");
+      sessionTimers[roomId].timer = setInterval(() => {
+        index++;
+        if (index < clients.length) {
+          io.to(roomId).emit('showClient', clients[index]);
+          sessionTimers[roomId].index = index;
+        } else {
+          clearInterval(sessionTimers[roomId].timer);
+          delete sessionTimers[roomId];
+          io.to(roomId).emit('sessionStopped');
+        }
+      }, 10000);
+      io.to(roomId).emit('sessionResumed');
+    }
+  });
+
+  socket.on('nextClient', ({ roomId }) => {
+    if (!rooms[roomId] || !sessionTimers[roomId]) return;
+    const clients = rooms[roomId].clients.filter(u => u.role === "client");
+    let index = sessionTimers[roomId].index + 1;
+    if (index < clients.length) {
+      sessionTimers[roomId].index = index;
+      io.to(roomId).emit('showClient', clients[index]);
+    }
+  });
+
+  socket.on('prevClient', ({ roomId }) => {
+    if (!rooms[roomId] || !sessionTimers[roomId]) return;
+    const clients = rooms[roomId].clients.filter(u => u.role === "client");
+    let index = sessionTimers[roomId].index - 1;
+    if (index >= 0) {
+      sessionTimers[roomId].index = index;
+      io.to(roomId).emit('showClient', clients[index]);
+    }
   });
 
   socket.on('disconnect', () => {
-    console.log(`Client disconnected: ${socket.id}`);
+    // Remove user from rooms
+    for (const roomId in rooms) {
+      rooms[roomId].clients = rooms[roomId].clients.filter(c => c.id !== socket.id);
+      if (rooms[roomId].host === socket.id) {
+        // Instead of deleting immediately, set a timeout
+        pendingRoomDeletion[roomId] = setTimeout(() => {
+          delete rooms[roomId];
+          io.to(roomId).emit('roomClosed');
+          delete pendingRoomDeletion[roomId];
+        }, 5000); // 5 seconds grace period
+      } else {
+        io.to(roomId).emit('users', rooms[roomId].clients);
+      }
+    }
   });
 });
 
-// Optionally expose a simple REST endpoint
-app.get('/api/evaluations', (req, res) => {
-  res.json(evaluations);
-});
-
-const PORT = process.env.PORT || 4000;
-httpServer.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
+server.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });

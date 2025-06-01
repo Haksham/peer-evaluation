@@ -5,6 +5,7 @@ mongodb
 socket.io
 supertest
 
+npm install nodemon --save-dev
 npm install --save-dev socket.io-client
 npm init
 type->module
