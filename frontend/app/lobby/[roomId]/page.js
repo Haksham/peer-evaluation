@@ -59,18 +59,33 @@ export default function LobbyPage() {
     socket.on("sessionPaused", () => setSessionPaused(true));
     socket.on("sessionResumed", () => setSessionPaused(false));
 
+    // Restore session state after refresh
+    socket.on("sessionState", ({ sessionStarted, currentClient, timeLeft }) => {
+      setSessionStarted(sessionStarted);
+      setCurrentClient(currentClient);
+      setClientTimer(timeLeft);
+    });
+
     return () => {
       socket.disconnect();
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
     };
   }, [roomId, router]);
 
-  // Reset timer to 10 only when a new client is shown
+  // Reset timer to timeLimit only when a new client is shown (not on resume)
   useEffect(() => {
     if (sessionStarted && currentClient) {
-      setClientTimer(timeLimit * 60); // minutes to seconds
+      setClientTimer(timeLimit * 60);
     }
   }, [currentClient, sessionStarted, timeLimit]);
+
+  // If sessionState event set a specific timeLeft, don't overwrite it
+  // So, only set timer to timeLimit*60 if clientTimer is not already set (i.e., on showClient, not on sessionState)
+  useEffect(() => {
+    if (sessionStarted && currentClient && clientTimer === undefined) {
+      setClientTimer(timeLimit * 60);
+    }
+  }, [currentClient, sessionStarted, timeLimit, clientTimer]);
 
   // Timer countdown effect
   useEffect(() => {
@@ -160,7 +175,6 @@ export default function LobbyPage() {
               {clients.map((user, idx) => (
                 <li key={idx}>
                   {user.name} {user.usn && <>({user.usn})</>}
-                  {/* <span className="ml-2 px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs uppercase">{user.role}</span> */}
                 </li>
               ))}
             </ul>
@@ -234,7 +248,6 @@ export default function LobbyPage() {
               {clients.map((user, idx) => (
                 <li key={idx}>
                   {user.name} {user.usn && <>({user.usn})</>}
-                  {/* <span className="ml-2 px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs uppercase">{user.role}</span> */}
                 </li>
               ))}
             </ul>

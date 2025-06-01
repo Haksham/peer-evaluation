@@ -71,11 +71,12 @@ io.on('connection', (socket) => {
       const clients = rooms[roomId].clients.filter(u => u.role === "client");
       const index = sessionTimers[roomId].index;
       const currentClient = clients[index];
-      // Calculate time left for current client
       let timeLeft = 0;
       if (sessionTimers[roomId].timerStart && sessionTimers[roomId].clientDuration) {
         const elapsed = Math.floor((Date.now() - sessionTimers[roomId].timerStart) / 1000);
         timeLeft = Math.max(sessionTimers[roomId].clientDuration - elapsed, 0);
+      } else {
+        timeLeft = rooms[roomId].timeLimit * 60;
       }
       socket.emit('sessionState', {
         sessionStarted: true,
@@ -108,6 +109,9 @@ io.on('connection', (socket) => {
         }
       }, 10000) // 10 seconds per client
     };
+    // When showing a client (startSession, nextClient, prevClient, etc.)
+    sessionTimers[roomId].timerStart = Date.now();
+    sessionTimers[roomId].clientDuration = rooms[roomId].timeLimit * 60; // in seconds
   });
 
   socket.on('stopSession', ({ roomId }) => {
