@@ -9,3 +9,4 @@ peer-eval_aws_code.pem
 sonar-project.properties
 not-required
 terraform
+node_modules
