@@ -5,6 +5,7 @@ export default {
   coverageReporters: ['lcov', 'text'],
   testMatch: [
     "**/?(*.)+(spec|test).[jt]s?(x)",
-    "**/?(*.)+(spec|test).mjs" // <-- Add this line
+    "**/?(*.)+(spec|test).mjs",
+    "**/?(*.)+(spec|test).cjs"
   ]
 };

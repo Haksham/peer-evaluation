@@ -1,17 +1,10 @@
-cors
-dotenv
+npm init -y
+npm i
 express
-mongodb
+cors
+dotend
+mongoose
 socket.io
-supertest
 
-npm install nodemon --save-dev
-npm install --save-dev socket.io-client
-npm init
-type->module
-main->server.js
-"scripts": {
-    "dev": "node server.js",
-    "start": "NODE_ENV=production node server.js"
-  }
-npm install --save-dev jest supertest
+nodemon --save-dev
+--save-dev jest supertest

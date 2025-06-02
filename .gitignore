@@ -4,8 +4,12 @@
 /imp pics
 /synopsis
 
-babel.config.js
 peer-eval_aws_code.pem
 sonar-project.properties
-not-required
 terraform
+
+.next
+frontend/.env
+backend/.env
+node_modules
+k8s
