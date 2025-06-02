@@ -13,4 +13,3 @@ frontend/.env
 backend/.env
 node_modules
 k8s
-node_modules
