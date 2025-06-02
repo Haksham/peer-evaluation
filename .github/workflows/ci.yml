@@ -38,15 +38,15 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/peer-eval-frontend:latest
     
     # Add after build steps
-      # - name: Install dependencies (frontend)
-      #   run: |
-      #     cd frontend
-      #     npm ci
+      - name: Install dependencies (frontend)
+        run: |
+          cd frontend
+          npm ci
 
-      # - name: Run tests (frontend)
-      #   run: |
-      #     cd frontend
-      #     npm run test:coverage
+      - name: Run tests (frontend)
+        run: |
+          cd frontend
+          npx jest
 
       - name: Install dependencies (backend)
         run: |
@@ -56,7 +56,7 @@ jobs:
       - name: Run tests (backend)
         run: |
           cd backend
-          npm run test:coverage
+          npx jest
 
   sonarcloud:
     needs: build-and-push

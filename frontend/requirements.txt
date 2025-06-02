@@ -4,3 +4,5 @@ xlsx
 npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
 npm install --save-dev jest-environment-jsdom
 npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-jest
+
+test: npx jest 

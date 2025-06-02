@@ -8,3 +8,5 @@ socket.io
 
 nodemon --save-dev
 --save-dev jest supertest
+
+test: npx jest 
