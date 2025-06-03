@@ -6,6 +6,8 @@ const { Server } = require("socket.io");
 
 dotenv.config();
 
+jest.setTimeout(20000); // 20 seconds
+
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
   const Host = require("./models/host.js");
