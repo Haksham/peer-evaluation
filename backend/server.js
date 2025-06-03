@@ -12,8 +12,7 @@ const app = express();
 
 // CORS FIRST!
 app.use(cors({
-  origin: "https://peer-eval-front.vercel.app",
-  credentials: true
+  origin: "https://peer-eval-front.vercel.app"
 }));
 
 app.use(express.json());
