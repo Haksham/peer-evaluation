@@ -51,6 +51,7 @@ docker-compose.yml:
 For a full and detailed analysis of the code, including issues like bugs, vulnerabilities, code smells, and test coverage, please visit the [SonarCloud Project Report](https://sonarcloud.io/project/overview?id=Haksham_peer-evaluation).
 
 ### Key Metrics:
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/07ff8d5df79e4d5fa209834539769ee5)](https://app.codacy.com/gh/Haksham/peer-evaluation?utm_source=github.com&utm_medium=referral&utm_content=Haksham/peer-evaluation&utm_campaign=Badge_Grade)
 - **Quality Gate Status**: [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
 - **Lines of Code**: [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
 - **Bugs**: Number of bugs found in the code.[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
