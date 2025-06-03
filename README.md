@@ -46,25 +46,15 @@ docker-compose.yml:
 - commands.txt with common Docker commands.
 - LICENSE (CC0) and README.md for project info.
 
-## SonarCloud Report
+## Codacy Report
 
 For a full and detailed analysis of the code, including issues like bugs, vulnerabilities, code smells, and test coverage, please visit the [SonarCloud Project Report](https://sonarcloud.io/project/overview?id=Haksham_peer-evaluation).
 
 ### Key Metrics:
-- **Quality Gate Status**: [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Lines of Code**: [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Bugs**: Number of bugs found in the code.[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Vulnerabilities**: Any security-related issues.[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Code Smells**: Areas where the code could be improved for better maintainability.[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Code Coverage**: Percentage of code covered by unit tests.[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Duplicated Code**: Amount of code duplication detected.[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Reliablity Rating**: [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Security Rating**: [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Technical Debt**: [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
-- **Maintainability Rating**: [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Haksham_peer-evaluation&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Haksham_peer-evaluation)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a36dd18ba554de1941e3d638bf58f77)](https://app.codacy.com/gh/Haksham/peer-evaluation/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 
 Please refer to the SonarCloud report above for a deeper analysis and insights into the quality of the codebase.
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a36dd18ba554de1941e3d638bf58f77)](https://app.codacy.com/gh/Haksham/peer-evaluation/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ---
