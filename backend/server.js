@@ -8,14 +8,11 @@ const reviewRoutes = require('./routes/review.js');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT;
 
 // CORS FIRST!
 app.use(cors({
-  origin: [
-    "https://peer-eval-front.vercel.app",
-    "http://localhost:3000"
-  ],
+  origin: "https://peer-eval-front.vercel.app",
   credentials: true
 }));
 
