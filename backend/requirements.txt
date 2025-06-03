@@ -4,7 +4,6 @@ express
 cors
 dotend
 mongoose
-socket.io
 serverless-http
 prom-client
 

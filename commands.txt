@@ -4,4 +4,6 @@ docker-compose build --no-cache
 docker-compose up
 docker-compose down
 
-coverage: https://app.codecov.io/gh/Haksham/peer-evaluation/config
+to run test on both frontend and backend: npx jest
+
+for grafana & prometheus monitoring: docker-compose up -d

@@ -8,9 +8,11 @@ const reviewRoutes = require('./routes/review.js');
 dotenv.config();
 
 const app = express();
+const PORT = 4000;
 
 app.use(cors({
   origin: process.env.PROCESS_URL,
+  // origin: "http://localhost:3000",
 }));
 
 app.use(express.json());

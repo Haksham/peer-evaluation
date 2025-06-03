@@ -75,6 +75,10 @@ export default function Home() {
       });
       const data = await res.json();
       if (res.ok) {
+        localStorage.setItem(
+          `client-auth-${clientRoomId}`,
+          JSON.stringify({ name: clientName, usn: clientUsn })
+        );
         router.push(`/clientlobby/${clientRoomId}`);
       } else {
         setError(data.message || data.error || "Failed to join room");
@@ -180,6 +184,13 @@ export default function Home() {
         </form>
       ) : (
         <form onSubmit={handleClientSubmit} className="space-y-5">
+           <button
+            type="button"
+            onClick={() => router.push("/client")}
+            className="w-full mt-2 py-2 bg-gray-200 text-gray-800 rounded font-semibold hover:bg-gray-300 transition-colors"
+          >
+            Login <br/> <span className="text-xs">(If already registered)</span>
+          </button>
           <div>
             <label htmlFor="clientName" className="block text-sm font-medium mb-1">Name</label>
             <input
@@ -260,13 +271,6 @@ export default function Home() {
             }`}
           >
             {loading ? "Joining..." : "Join Room"}
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push("/client")}
-            className="w-full mt-2 py-2 bg-gray-200 text-gray-800 rounded font-semibold hover:bg-gray-300 transition-colors"
-          >
-            Login
           </button>
         </form>
       )}
