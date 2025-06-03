@@ -8,11 +8,9 @@ const reviewRoutes = require('./routes/review.js');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
 
-// CORS FIRST!
 app.use(cors({
-  origin: "http://localhost:3000", // Adjust this to your frontend URL
+  origin: process.env.PROCESS_URL,
 }));
 
 app.use(express.json());
@@ -77,10 +75,10 @@ app.get('/api/metrics', async (req, res) => {
 });
 
 // Only start server if not in test environment
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
-  });
-}
+// if (require.main === module) {
+//   app.listen(PORT, () => {
+//     console.log(`Server started on http://localhost:${PORT}`);
+//   });
+// }
 
 module.exports = app;
