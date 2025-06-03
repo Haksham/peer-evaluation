@@ -9,6 +9,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,91 +41,46 @@ jobs:
           context: ./frontend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/peer-eval-frontend:latest
-
-  install-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    
+    # Add after build steps
+          
       - name: Install dependencies (frontend)
         run: |
           cd frontend
           npm ci
 
-  test-frontend:
-    runs-on: ubuntu-latest
-    needs: install-frontend
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install dependencies (frontend)
-        run: |
-          cd frontend
-          npm ci
       - name: Run tests (frontend)
         run: |
           cd frontend
           npx jest
 
-  install-backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Install dependencies (backend)
-        run: |
-          cd backend
-          npm ci
-
-  monitoring:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Start monitoring stack (Prometheus & Grafana)
-        run: |
-          docker-compose -f monitoring/docker-compose.yml up -d
-      - name: Wait for Prometheus and Grafana to be healthy
-        run: |
-          sleep 20  # Adjust as needed for your stack to be ready
-
-  test-backend:
-    runs-on: ubuntu-latest
-    needs: [install-backend, monitoring]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@v1
-        with:
-          mongodb-version: '6.0'
       - name: Set test environment variables
         run: |
           echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV
           echo "PORT=4000" >> $GITHUB_ENV
+
       - name: Install dependencies (backend)
         run: |
           cd backend
           npm ci
+
       - name: Run tests (backend)
         run: |
           cd backend
           npx jest
-      - name: Stop monitoring stack
-        if: always()
-        run: |
-          docker-compose -f monitoring/docker-compose.yml down
 
   codacy-analysis:
-    needs: [build-and-push, test-frontend, test-backend]
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@v4
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
 
   notify:
     needs: [build-and-push, codacy-analysis]
