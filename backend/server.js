@@ -31,10 +31,10 @@ app.get("/", (req, res) => {
 });
 
 // Only start server if not in test environment
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
-  });
-}
+// if (require.main === module) {
+//   app.listen(PORT, () => {
+//     console.log(`Server started on http://localhost:${PORT}`);
+//   });
+// }
 
 module.exports = app;
