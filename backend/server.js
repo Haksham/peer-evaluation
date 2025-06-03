@@ -11,7 +11,10 @@ const app = express();
 const PORT = process.env.PORT;
 
 connectDB();
-app.use(cors());
+app.use(cors({
+  origin: "https://peer-eval-front.vercel.app", // your frontend URL
+  credentials: true
+}));
 app.use(express.json());
 app.use('/api/host', hostRoutes);
 app.use('/api/client', clientRoutes);
