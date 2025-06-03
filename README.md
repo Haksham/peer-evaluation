@@ -65,4 +65,6 @@ For a full and detailed analysis of the code, including issues like bugs, vulner
 
 Please refer to the SonarCloud report above for a deeper analysis and insights into the quality of the codebase.
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a36dd18ba554de1941e3d638bf58f77)](https://app.codacy.com/gh/Haksham/peer-evaluation/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 ---

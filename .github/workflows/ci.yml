@@ -69,21 +69,21 @@ jobs:
           cd backend
           npx jest
 
-  sonarcloud:
+  codacy-analysis:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@v4
         with:
-          args: >
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
 
   notify:
-    needs: [build-and-push, sonarcloud]
+    needs: [build-and-push, codacy-analysis]
     runs-on: ubuntu-latest
     if: success()
     steps:
@@ -92,4 +92,4 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: 'C08VCBL65S4'  # Replace with your channel ID
-          SLACK_MESSAGE: 'Build, tests, and SonarCloud scan passed successfully! 🎉'
+          SLACK_MESSAGE: 'Build, tests, and Codacy scan passed successfully! 🎉'
