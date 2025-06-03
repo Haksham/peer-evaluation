@@ -38,10 +38,6 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/peer-eval-frontend:latest
     
     # Add after build steps
-      - name: Set test environment variables
-        run: |
-          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV
-          echo "PORT=4000" >> $GITHUB_ENV
           
       - name: Install dependencies (frontend)
         run: |
@@ -63,6 +59,10 @@ jobs:
         run: |
           npx jest
 
+      - name: Set test environment variables
+        run: |
+          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV
+          echo "PORT=4000" >> $GITHUB_ENV
 
   sonarcloud:
     needs: build-and-push
