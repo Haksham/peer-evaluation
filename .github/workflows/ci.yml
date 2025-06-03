@@ -49,6 +49,11 @@ jobs:
           cd frontend
           npx jest
 
+      - name: Set test environment variables
+        run: |
+          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV
+          echo "PORT=4000" >> $GITHUB_ENV
+
       - name: Install dependencies (backend)
         run: |
           cd backend
@@ -58,11 +63,6 @@ jobs:
         run: |
           cd backend
           npx jest
-
-      - name: Set test environment variables
-        run: |
-          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV
-          echo "PORT=4000" >> $GITHUB_ENV
 
   sonarcloud:
     needs: build-and-push
