@@ -2,6 +2,7 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = require("./server.js");
+const { Server } = require("socket.io");
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await mongoose.connection.close(); // close MongoDB connection
 });
 
 describe("API Endpoints", () => {
