@@ -10,12 +10,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-connectDB();
+// CORS FIRST!
 app.use(cors({
-  origin: "https://peer-eval-front.vercel.app", // your frontend URL
+  origin: [
+    "https://peer-eval-front.vercel.app",
+    "http://localhost:3000"
+  ],
   credentials: true
 }));
+
 app.use(express.json());
+connectDB();
+
 app.use('/api/host', hostRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/review', reviewRoutes);
