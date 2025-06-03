@@ -110,6 +110,10 @@ jobs:
         run: |
           cd backend
           npm ci
+      - name: Install docker-compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
       - name: Run tests (backend)
         run: |
           cd backend
