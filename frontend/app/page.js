@@ -154,10 +154,10 @@ export default function Home() {
             <div className="flex gap-2 mt-1">
               <input
                 id="roomId"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none bg-gray-100"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                 type="text"
                 value={roomId}
-                readOnly
+                onChange={e => setRoomId(e.target.value)}
               />
               <button
                 className="px-3 py-2 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300 transition-colors"
@@ -179,7 +179,7 @@ export default function Home() {
           </button>
         </form>
       ) : (
-        <form className="space-y-5">
+        <form onSubmit={handleClientSubmit} className="space-y-5">
           <div>
             <label htmlFor="clientName" className="block text-sm font-medium mb-1">Name</label>
             <input

@@ -48,7 +48,7 @@ docker-compose.yml:
 
 ## Codacy Report
 
-For a full and detailed analysis of the code, including issues like bugs, vulnerabilities, code smells, and test coverage, please visit the [SonarCloud Project Report](https://sonarcloud.io/project/overview?id=Haksham_peer-evaluation).
+For a full and detailed analysis of the code, including issues like bugs, vulnerabilities, code smells, and test coverage, please visit the [SonarCloud Project Report]().
 
 ### Key Metrics:
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a36dd18ba554de1941e3d638bf58f77)](https://app.codacy.com/gh/Haksham/peer-evaluation/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
