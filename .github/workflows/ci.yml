@@ -53,10 +53,10 @@ jobs:
         run: |
           cd backend
           npm ci
-          cd backend
 
       - name: Run tests (backend)
         run: |
+          cd backend
           npx jest
 
       - name: Set test environment variables
