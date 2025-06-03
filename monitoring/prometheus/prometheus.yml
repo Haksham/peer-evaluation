@@ -10,7 +10,7 @@ scrape_configs:
 
   - job_name: 'vercel-app'
     static_configs:
-      - targets: ['peer-evaluation.vercel.app']
+      - targets: ['peer-evaluation.vercel.app'] # change based on your Vercel app domain
     metrics_path: '/api/metrics'
     scheme: https
     tls_config:

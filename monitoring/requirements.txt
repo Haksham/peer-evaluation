@@ -1,0 +1,4 @@
+for grafana & prometheus monitoring: docker-compose up -d
+
+grafana : localhost:3001 (all monitoring)
+prometheus : localhost:9090
